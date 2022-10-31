@@ -5,7 +5,7 @@ class SpicesController < ApplicationController
     end
 
     def create
-        spice = Spice.create(title: params[:title], image: params[:image], description: params[:description], notes: params[:notes], rating: params[:rating])
+        spice = Spice.create(spice_params)
         render json: spice, status: :created
     end
 
@@ -18,10 +18,6 @@ class SpicesController < ApplicationController
             render json: {error: "Spice not found"}, status: :not_found
         end
     end
-
-    def spice_params
-        params.permit(:title, :image, :description, :notes, :rating)
-    end
     
     def destroy
         spice = Spice.find_by(id: params[:id])
@@ -31,5 +27,12 @@ class SpicesController < ApplicationController
        else
         render json: {error: "Spice not found" }, status: :not_found
        end
+    end
+
+
+    private
+
+    def spice_params
+        params.permit(:title, :image, :description, :notes, :rating)
     end
 end
